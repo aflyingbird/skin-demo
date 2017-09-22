@@ -1,22 +1,18 @@
 var http = require("http");
 var fs = require("fs");
- 
-function start(route) {
+var opn = require('opn');
+function start() {
   function onRequest(request, response) {
-    var path = request.url;	
-	console.log("path1: "+path)
-	if(path == "/"){
-		path = "/view/login.html";
-	}else if(path == "/index"){
-		path = "/view/index.html";
-	}else{
-		path = "/view/index.html";
+    var path = request.url;
+	if(path == "/develop"){
+		path = "/src/view/develop.html";
+	}else if(path == "/"){
+        path = "/src/view/index.html";
 	}
 	sendFile(response,path);
   }
   function sendFile(res,path){
 	var path = process.cwd()+path;
-	console.log(path)
 	fs.readFile(path,function(err,stdout,stderr){
 		if(!err){
 			var data = stdout;
@@ -26,9 +22,13 @@ function start(route) {
 		}
 		res.end();
 	})
+
   }
-  http.createServer(onRequest).listen(8888);
+  var port = 8887;
+  http.createServer(onRequest).listen(port);
   console.log("Server has started.");
+  opn('http://localhost:' + port + "/develop");
 }
  
 exports.start = start;
+

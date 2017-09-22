@@ -7,7 +7,7 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "test"
+    "dev": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,7 @@
   },
   "homepage": "https://github.com/aflyingbird/skin-demo#readme",
   "dependencies": {
+    "element-ui": "^1.4.4",
+    "open": "0.0.5"
   }
 }
