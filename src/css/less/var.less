@@ -1,0 +1,167 @@
+@import 'colorPalette';
+//
+// Var
+// --------------------------------------------------
+
+//==Colors
+//##
+
+//  主要色调
+
+@fd-color-a6:#1b95e7;   //  A6
+@fd-color-b6:#f04134;   //  B6
+@fd-color-c6:#00A854;   //  C6
+@fd-color-d6:#ffbf00;   //  D6
+@fd-color-e6:#d9d9d9;   //  E6
+
+//  品牌色
+
+@fd-brand-primary: @fd-color-a6;                                  //  默认状态
+@fd-brand-hover: color(~`colorPalette("@{fd-color-a6}", 5)`);     //  悬浮色
+@fd-brand-click: color(~`colorPalette("@{fd-color-a6}", 7)`);     //  点击色
+@fd-brand-select: color(~`colorPalette("@{fd-color-a6}", 1)`);    //  选中色
+
+//  功能色
+@fd-color-info: @fd-color-a6;    //  链接/说明
+@fd-color-danger: @fd-color-b6;     //  失败色
+@fd-color-success: @fd-color-c6;    //  成功色
+@fd-color-warning: @fd-color-d6;    //  警告色
+@fd-color-primary: @fd-color-e6;       //  常规色
+
+//  中性色
+
+@fd-color-invalid: color(~`colorPalette("@{fd-color-e6}", 2)`);       //  失效置灰色
+@fd-color-interface: color(~`colorPalette("@{fd-color-e6}", 3)`);     //  界面背景底色
+@fd-color-divide: color(~`colorPalette("@{fd-color-e6}", 4)`);        //  分割线
+@fd-color-border: @fd-color-e6;                                       //  边框色
+@fd-color-content-bg: #fff;                                           //  文本背景
+
+
+//  文本
+
+@fd-text-color-title: #404040;    //  标题颜色
+@fd-text-color: #666;             //  正文颜色
+@fd-text-color-intro: #8c8c8c;    //  说明性
+@fd-text-color-disable: #bfbfbf;  //  不可用
+@fd-text-color-dark-bg: #fff;     //  深背景上文字
+@fd-text-color-link: #1b95e7;     //  链接文字
+@fd-text-color-warning: #f04134;  //  警示性文字
+
+
+//  布局颜色
+
+@fd-layout-sidebar-color: #404040;          //  侧边栏颜色
+@fd-layout-second-nav-bg: #333333;          //  二级导航栏背景
+@fd-layout-font-color: #8f8f8f;             //  导航中默认字的颜色
+@fd-layout-second-nav-select: #ffffff;      //  二级导航中选中颜色
+@fd-layout-first-nav-select-bg: #1b95e7;    //  一级导航中选中的背景色
+
+
+//  Padding
+
+@base-1x: 5px;
+@base-2x: 10px;
+@base-3x: 15px;
+@base-4x: 20px;
+
+@fd-padding-1x: @base-1x;
+@fd-padding-2x: @base-2x;
+@fd-padding-3x: @base-3x;
+@fd-padding-4x: @base-3x;
+
+//  Margin
+
+@fd-com-margin-1x: @base-1x;
+@fd-com-margin-2x: @base-2x;
+@fd-com-margin-3x: @base-3x;
+@fd-com-margin-4x: @base-4x;
+
+//  Buttons
+
+@fd-com-btn-primary: @fd-color-primary;
+@fd-com-btn-success: @fd-color-success;
+@fd-com-btn-warning: @fd-color-warning;
+@fd-com-btn-danger: @fd-color-danger;
+@fd-com-btn-info: @fd-color-info;
+
+//  Font
+@base-font-size: 14px;
+
+@sans-serif-font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+@serif-font-family:       Georgia, "Times New Roman", Times, serif;
+@monospace-font-family:   Menlo, Monaco, Consolas, "Courier New", monospace;
+@base-font-family:        @sans-serif-font-family;
+
+@fd-font-size-small: ceil((@base-font-size * 0.85)); //~12px
+@fd-font-size-base: @base-font-size;
+@fd-font-size-large: ceil((@base-font-size * 1.25)); //~16px
+
+// 行高
+
+@base-line-height:        1.428571429; // 20/14
+@line-height-computed:    floor((@base-font-size * @base-line-height));
+
+//  各级标题
+
+@fd-font-size-h1: ceil((@base-font-size * 2.6)); //~36px
+@fd-font-size-h2: ceil((@base-font-size * 2.15)); //~30px
+@fd-font-size-h3: ceil((@base-font-size * 2.6)); //~24px
+@fd-font-size-h4: ceil((@base-font-size * 2.6)); //~18px
+@fd-font-size-h5: @base-font-size;
+@fd-font-size-h6: ceil((@base-font-size * 0.85)); //~12px
+
+//`A
+
+@fd-com-a-default: #1b95e7;
+@fd-com-a-hover: #52aeed;
+@fd-com-a-visited: #177dc9;
+@fd-com-a-active: #edf7fd;
+
+// Bg-color
+@base-body-bg: #fff;
+@fd-body-bg-default: @base-body-bg;
+@fd-body-bg-light: lighten(@base-body-bg, 23.5%);
+@fd-body-bg-lighter: lighten(@base-body-bg, 53.5%);
+@fd-body-bg-dark: darken(@base-body-bg, 33.5%);
+@fd-body-bg-darker: darken(@base-body-bg, 43.5%);
+
+//  标题背景
+
+@fd-hx-bg-default: @base-body-bg;
+@fd-hx-bg-light: lighten(@base-body-bg, 23.5%);
+@fd-hx-bg-lighter: lighten(@base-body-bg, 53.5%);
+@fd-hx-bg-dark: darken(@base-body-bg, 33.5%);
+@fd-hx-bg-darker: darken(@base-body-bg, 43.5%);
+
+//  Input背景
+
+@fd-input-bg-default: @base-body-bg;
+@fd-input-bg-light: lighten(@base-body-bg, 23.5%);
+@fd-input-bg-lighter: lighten(@base-body-bg, 53.5%);
+@fd-input-bg-dark: darken(@base-body-bg, 33.5%);
+@fd-input-bg-darker: darken(@base-body-bg, 43.5%);
+
+//  Panel背景
+
+@fd-panel-bg-default: @base-body-bg;
+@fd-panel-bg-light: lighten(@base-body-bg, 23.5%);
+@fd-panel-bg-lighter: lighten(@base-body-bg, 53.5%);
+@fd-panel-bg-dark: darken(@base-body-bg, 33.5%);
+@fd-panel-bg-darker: darken(@base-body-bg, 43.5%);
+
+// Button
+
+@fd-button-primary: @fd-brand-primary;    //  基本按钮
+@fd-button-success: @fd-color-success;    //  成功按钮
+@fd-button-warning: @fd-color-warning;    //  警告按钮
+@fd-button-danger: @fd-color-danger;      //  危险按钮
+@fd-button-info: @fd-color-info;          //  信息按钮
+
+// Border-radius
+
+@base-border-radius: 5px;
+
+// Breadcrumb
+
+@base-breadcrumb: 60px;
+@base-breadcrumb-line-height: 60px;

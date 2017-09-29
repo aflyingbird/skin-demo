@@ -1,0 +1,20 @@
+.base-font,
+.btn-primary {
+  color: #666;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.42857143;
+}
+.padding-1x,
+.btn-primary {
+  padding: 5px;
+}
+.btn-base,
+.btn-primary {
+  border: 0;
+  background: none;
+  outline: none;
+}
+.btn-primary {
+  background: #1b95e7;
+}

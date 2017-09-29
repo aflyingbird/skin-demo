@@ -1,0 +1,22 @@
+@import "mixin";
+@import "var";
+
+
+
+.padding-1x {
+  padding: @fd-padding-1x;
+}
+
+.btn-base {
+  border: 0;
+  background: none;
+  outline: none;
+}
+
+.btn-primary {
+  &:extend(.base-font, .btn-base, .padding-1x);
+}
+
+.btn-primary {
+  background: @fd-button-primary;
+}

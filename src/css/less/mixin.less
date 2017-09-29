@@ -1,0 +1,23 @@
+@import "./var";
+//  浮动清除
+.clearfix() {
+  zoom: 1;
+  &:before,
+  &:after {
+	content: " ";
+	display: table;
+  }
+  &:after {
+	clear: both;
+	visibility: hidden;
+	font-size: 0;
+	height: 0;
+  }
+}
+
+.base-font {
+  color: @fd-text-color;
+  font-size: @base-font-size;
+  font-family: @base-font-family;
+  line-height: @base-line-height;
+}

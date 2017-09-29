@@ -1,33 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
-    <title>数魔方</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="src/css/element.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>数魔方</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!---link stylesheet to page--->
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/element.css">
 </head>
-<body class="" style = "">
+<body class="" style="">
 <div id="app">
-    <el-button @click="visible = true">按钮</el-button>
-    <el-dialog v-model="visible" title="Hello world">
-        <p>欢迎使用 Element</p>
-    </el-dialog>
+	
+	<div class="left-app">
+		<div class="logo">
+			logo区域
+		</div>
+	</div>
+	<div class="right-app">
+		<el-breadcrumb seperate="/" class="breadcrumb">
+			<el-breadcrumb-item>首页</el-breadcrumb-item>
+			<el-breadcrumb-item>活动管理</el-breadcrumb-item>
+			<el-breadcrumb-item>活动列表</el-breadcrumb-item>
+			<el-breadcrumb-item>活动详情</el-breadcrumb-item>
+		</el-breadcrumb>
+		<div class="content-app">
+			<el-row>
+				<el-col :span="24">hjahsj</el-col>
+			</el-row>
+		</div>
+		<el-row>
+			ahsjk
+		</el-row>
+	</div>
+	
+	<div>
+		<el-row>
+			<el-col :span="24">
+				jkljklajskjk
+			</el-col>
+		</el-row>
+		<el-row>
+			jkajksjkkj
+		</el-row>
+		<el-row>
+			jkajksjkkj
+		</el-row>
+	</div>
+
 </div>
 <!-- jQuery 1.12.2 -->
-<script src="src/js/components/jquery/jquery-1.12.2.min.js"></script>
-<script src="src/js/components/vue/vue.js"></script>
-<script src="src/js/components/vue-router/vue-router.js"></script>
-<script src="src/js/components/element/element.js"></script>
+<script src="../js/components/vue/vue.js"></script>
+<script src="../js/components/vue-router/vue-router.js"></script>
+<script src="../js/components/element/element.js"></script>
 <script>
-    new Vue({
-        el: '#app',
-        data: function() {
-            return { visible: false }
-        }
-    })
+	new Vue({
+		el: '#app',
+		data: function () {
+			return { visible: false }
+		}
+	})
 </script>
 </body>
 </html>

@@ -1,0 +1,48 @@
+@import "./less/var";
+@import "./less/mixin";
+
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  color: @fd-text-color;
+  background: @base-body-bg;
+}
+
+.app-height, #app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .left-app {
+	float: left;
+	width: 200px;
+	height: 100%;
+	background: @fd-layout-sidebar-color;
+	.logo {
+	  margin: @fd-com-margin-4x;
+	  height: ceil(@base-4x * 2);
+	  line-height: ceil(@base-4x * 2);
+	  background: #666;
+	}
+  }
+  .right-app {
+	position: relative;
+	margin-left: 200px;
+	height: 100%;
+	.breadcrumb:extend(.base-font) {
+	  padding: 0 @fd-padding-4x;
+	  height: @base-breadcrumb;
+	  line-height: @base-breadcrumb-line-height;
+	};
+	.content-app {
+	  padding: @base-4x;
+	  background: #00A2AE;
+	  .el-row {
+		&:before, &:after {
+		  display: none!important;
+		}
+	  }
+	}
+  }
+}
