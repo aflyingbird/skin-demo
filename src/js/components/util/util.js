@@ -32,14 +32,12 @@
             for(var i = 0;i < len; i++){
                 $row.append($.fd.init_col(row[i],opt,colWidth));
             }
-            console.log("init_row",$row.selfHtml())
             return $row;
         }
         $.fd.init_col = function(obj,opt,width){
             var $col = $("<div>").addClass("f_init_col").css({ width: width });
-            $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text("{{" + (obj.text == undefined ? obj.name : obj.text) + "}}"));
+            $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text));
             $col.append($("<div>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
-            console.log("init_col",$col.selfHtml())
             return $col;
         }
         $.fn.selfHtml = function(){
@@ -57,7 +55,6 @@
                     $con.append($.fd.init_row(item,content));
                 }
             }
-            console.log("init_content",$con.selfHtml())
             return $con;
         }
         $.fd.init_footer = function(footer){
@@ -68,7 +65,6 @@
                 var item = params[i].item;
                 $footer.append($.fd.init_row(item,footer));
             }
-            console.log("init_content",$footer.selfHtml())
             return $footer;
         }
         $.fd.init_checkbox = function($dom) {
@@ -80,7 +76,6 @@
                     $(this).addClass("fa-check-square-o").removeClass("fa-square-o");
                 }
             })
-            console.log("init_checkbox",$span.selfHtml())
             return $span;
         }
         $.fd.init_radio = function($dom) {
@@ -92,7 +87,6 @@
                     $(this).addClass("fa-dot-circle-o").removeClass("fa-circle-o");
                 }
             })
-            console.log("init_radio",$span.selfHtml())
             return $span;
         }
         $.fd.init_collapse = function($dom) {
@@ -106,13 +100,24 @@
                     $(this).parent().parent().nextAll().hide();
                 }
             })
-            console.log("init_collapse",$span.selfHtml())
             return $span;
         }
-        $.fd.init_title = function($dom) {
-            var $span = $("<span>").addClass("fa fa-dot-circle-o");//fa fa-circle-o
+        $.fd.init_title = function($dom,param){
+            // var $span = $("<div>").text(param.name?"{{"+param.name+"}}":"");
+            var $span = "<div>"+(param.name?"{{"+param.name+"}}":"")+"<span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span></div>"
+            return $span;
+        }
+        $.fd.init_switch = function($dom,param){
+            $dom.css("width",param.width);
+            var $span = "<span>"+param.text+"</span><span class = 'fa fa-toggle-off'></span>";
+//             $span += $("<span>").addClass("fa fa-toggle-off");//fa-square-o
+//             var $span = $("<span>").addClass("fa fa-toggle-off");//fa-square-o
             $dom.on("click",".fa",function(){
-
+                if($(this).hasClass("fa-toggle-off")){
+                    $(this).removeClass("fa-toggle-off").addClass("fa fa-toggle-on");
+                }else{
+                    $(this).addClass("fa-toggle-off").removeClass("fa fa-toggle-on");
+                }
             })
             return $span;
         }
@@ -125,20 +130,25 @@
             $head.css({padding:"5px "+pdr+"px 5px 50px"});
             if(head.operate){
                 $operate.append($.fd["init_"+head.operate]($operate));
+                $head.append($operate);
             }
             if(head.title){
                 var $title = $("<div>");
                 $title.append($.fd["init_title"]($title,head.title));
+                $head.append($title);
             }
             if(head.custom.type){
                 var $custom = $("<div>");
                 $custom.append($.fd["init_"+head.custom.type]($custom,head.custom));
+                $head.append($custom);
             }
             if(btnLen > 0){
                 var $bottoms = $("<div>").addClass("f_init_bottoms").css({width:(btnLen*80)});
                 $bottoms.append($.fd["init_bottoms"]($bottoms,head.bottoms));
+                $head.append($bottoms);
             }
-            $head.append();
+
+            return $head
             // {
             //     operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
             //     status: "status",
@@ -148,12 +158,11 @@
         }
         //根据配置生成对应的string模板 params:[{name:"",text:""}] ,name用来绑定事件，text:显示的内容，type:待添加，支持不同形式的按钮
         $.fd.init_absolutePanel = function(params){
-             var $panel = $("<div>").addClass("f_init_absolutePanel");
-             for(var i = 0;i<params.length;i++){
-                 $panel.append($("<div>").attr("name",params[i].name).text(params[i].text||params[i].name));
-             }
-             console.log("init_absolutePanel",$panel.selfHtml())
-             return $panel;
+            var $panel = $("<div>").addClass("f_init_absolutePanel");
+            for(var i = 0;i<params.length;i++){
+                $panel.append($("<div>").attr("name",params[i].name).text(params[i].text||params[i].name));
+            }
+            return $panel;
         }
         //<div class = "f_init_bottoms"> 相对定位
         //    <div class = "f_init_bottoms_more">更多</div>
@@ -189,7 +198,6 @@
                     bottoms.push($("<div>").addClass("f_init_bottoms")
                         .append($("<span>").text(item.text || ("{{"+item.name+"}}"))));
                 }
-                console.log("init_bottoms",$(bottoms[i]).selfHtml())
             }
             return bottoms;
         }
@@ -217,7 +225,7 @@
             var length = matchs.length;
             var key = "";
             for(var i = 0; i < length; i++){
-                key = matchs[i];
+                key = matchs[i].replace(/^{{/,"").replace(/}}$/,"");
                 modal = modal.replace(new RegExp(matchs[i],"g"), (obj[key] || ""));
             }
             return modal;
@@ -232,30 +240,29 @@
         }
         $.fd.cardTable = function(option){
             var defaultOpt = {
-                    head:{
-                        operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
-                        status: "status",
-                        custom: {name:"",text:"",type:""},//定制操作，type
-                        bottoms: []
-                    },
-                    content:{
-                        type: "form",
-                        labelWidth: "80px",
-                        params: []
-                    },
-                    footer:{
-                        labelWidth: "80px",
-                        params:[]
-                    },
-                    data: [],
-                    icon: "f_cardTable",
-                    width: "100%",
-                    page: false
-                }
+                head:{
+                    operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
+                    status: "status",
+                    custom: {name:"",text:"",type:""},//定制操作，type
+                    bottoms: []
+                },
+                content:{
+                    type: "form",
+                    labelWidth: "80px",
+                    params: []
+                },
+                footer:{
+                    labelWidth: "80px",
+                    params:[]
+                },
+                data: [],
+                icon: "f_cardTable",
+                width: "100%",
+                page: false
+            }
             var opt = $.extend(true,{},defaultOpt,option);
             var sort = ["head","content","footer"];
             var cardHtml = $.fd.initModel(opt,sort);
-            console.log(cardHtml);
             var back = {
                 html : cardHtml,
                 dom : opt.div,
@@ -314,29 +321,6 @@
             back.refresh(opt.data);
             return back;
         }
-        var opt = {
-            head:{
-                operate: "checkbox",
-                status: "status",
-                custom: {name:"custom",text:"custom"},
-                bottoms: [{name:"新增"},{"name":"修改",child:[{name:"修改-名称",text:"名称"},{name:"修改-年龄",text:"年龄"}]}]
-            },
-            content:{
-                type: "form",
-                labelWidth: "80px",
-                params: [{item:[{name:"time",text:"时间"}]},{item:[{name:"name",text:"案由名称"},{name:"name",text:"案由名称"}]}]
-            },
-            footer:{
-                labelWidth: "80px",
-                params:[]
-            },
-            data: [],
-            div: $("body"),
-            key: "id",
-            icon: "f_cardTable",
-            width: "100%",
-            page: false
-        }
-        $.fd.cardTable(opt);
+
     });
 })(jQuery);
