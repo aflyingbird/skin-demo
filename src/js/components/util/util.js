@@ -6,7 +6,7 @@
         $.fd = $.fd || {};
         //根据sort拼接模板
         $.fd.initModel = function(opt,sort){
-            var $root = $("<div>").addClass(opt.icon||"");
+            var $root = $("<div>").addClass(opt.icon||"").attr("majorKey","{{"+opt.key+"}}");
             var len = sort.length;
             var key = "";
             for(var i = 0;i < len;i++){
@@ -218,9 +218,17 @@
             var key = "";
             for(var i = 0; i < length; i++){
                 key = matchs[i];
-                modal = modal.replace(new RegExp(matchs[i],"g"), obj[key]);
+                modal = modal.replace(new RegExp(matchs[i],"g"), (obj[key] || ""));
             }
             return modal;
+        }
+        $.fd.changeArrayToObj = function(arr, key){
+            var len = arr.length;
+            var obj = {};
+            for(var i = 0; i < len; i++){
+                obj[arr[i][key]] = arr[i];
+            }
+            return obj;
         }
         $.fd.cardTable = function(option){
             var defaultOpt = {
@@ -247,6 +255,88 @@
             var opt = $.extend(true,{},defaultOpt,option);
             var sort = ["head","content","footer"];
             var cardHtml = $.fd.initModel(opt,sort);
+            console.log(cardHtml);
+            var back = {
+                html : cardHtml,
+                dom : opt.div,
+                data: opt.data,
+                dataObj: $.fd.changeArrayToObj(opt.data),
+                refresh : function(data){
+                    data = data || [];
+                    var len = data.length;
+                    var $dom = this.dom;
+                    var modal = this.html;
+                    $dom.empty();
+                    if(len === 0){
+                        $dom.append($("<div>").addClass("noData").text("没有找到数据"));
+                    }else{
+                        for(var i = 0; i < len;i++){
+                            $dom.append($.fd.changeModel(modal, data[i]));
+                        }
+                    }
+                },
+                add: function(data){
+                    data = data || {};
+                    $dom.prepend($.fd.changeModel(modal, data));
+                    this.refreshPageTool();//新增
+                },
+                remove: function (key) {
+                    if(key){
+                        $("[majorKey='"+key+"']",this.dom).remove();
+                    }else{
+                        this.dom.empty();
+                    }
+                    this.refreshPageTool(true);
+                },
+                edit:function (key, obj) {
+
+                },
+                getData: function (key) {
+                    if(key){
+                        return this.dataObj[key];
+                    }else{
+                        return this.data;
+                    }
+                },
+                getSelected: function () {
+                    var selectors = $("[majorKey].selected",this.dom);
+                    var data = [];
+                    var length = selectors.length;
+                    for(var i = 0; i<length; i++){
+                        data.push(this.dataObj($(selectors[i]).attr("majorKey")));
+                    }
+                    return data;
+                },
+                refreshPageTool:function (flag) {
+                    flag = flag || false;
+                }
+            }
+            back.refresh(opt.data);
+            return back;
         }
+        var opt = {
+            head:{
+                operate: "checkbox",
+                status: "status",
+                custom: {name:"custom",text:"custom"},
+                bottoms: [{name:"新增"},{"name":"修改",child:[{name:"修改-名称",text:"名称"},{name:"修改-年龄",text:"年龄"}]}]
+            },
+            content:{
+                type: "form",
+                labelWidth: "80px",
+                params: [{item:[{name:"time",text:"时间"}]},{item:[{name:"name",text:"案由名称"},{name:"name",text:"案由名称"}]}]
+            },
+            footer:{
+                labelWidth: "80px",
+                params:[]
+            },
+            data: [],
+            div: $("body"),
+            key: "id",
+            icon: "f_cardTable",
+            width: "100%",
+            page: false
+        }
+        $.fd.cardTable(opt);
     });
 })(jQuery);
