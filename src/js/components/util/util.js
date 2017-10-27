@@ -35,9 +35,9 @@
             return $row;
         }
         $.fd.init_col = function(obj,opt,width){
-            var $col = $("<div>").addClass("f_init_col").css({ width: width });
-            $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text));
-            $col.append($("<div>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
+            var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
+            $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text(( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text)+"："));
+            $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
             return $col;
         }
         $.fn.selfHtml = function(){
@@ -104,14 +104,17 @@
         }
         $.fd.init_title = function($dom,param){
             // var $span = $("<div>").text(param.name?"{{"+param.name+"}}":"");
-            var $span = "<div>"+(param.name?"{{"+param.name+"}}":"")+"<span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span></div>"
+            var $span = "<div class = 'init_titleName'><span>"+(param.name?"{{"+param.name+"}}":"")+"</span><span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span></div>"
             return $span;
         }
         $.fd.init_switch = function($dom,param){
             $dom.css("width",param.width);
-            var $span = "<span>"+param.text+"</span><span class = 'fa fa-toggle-off'></span>";
-//             $span += $("<span>").addClass("fa fa-toggle-off");//fa-square-o
-//             var $span = $("<span>").addClass("fa fa-toggle-off");//fa-square-o
+            var $span = "<div class = 'init_switch'>";
+            "<span>"+param.text+"</span>"+
+            "<span class = 'close basicStyle'>" +
+            "<span class = 'circle'></span>"+
+            "</span>"+
+            "</div>";
             $dom.on("click",".fa",function(){
                 if($(this).hasClass("fa-toggle-off")){
                     $(this).removeClass("fa-toggle-off").addClass("fa fa-toggle-on");
@@ -127,7 +130,7 @@
             var $title = $("<div>").addClass("head_title");//标题
             var btnLen = head.bottoms.length;
             var pdr = btnLen * 80 + (head.custom.width || 0);
-            $head.css({padding:"5px "+pdr+"px 5px 50px"});
+            $head.css({padding:"0px "+pdr+"px 0px 50px"});
             if(head.operate){
                 $operate.append($.fd["init_"+head.operate]($operate));
                 $head.append($operate);
@@ -143,12 +146,12 @@
                 $head.append($custom);
             }
             if(btnLen > 0){
-                var $bottoms = $("<div>").addClass("f_init_bottoms").css({width:(btnLen*80)});
+                var $bottoms = $("<div>").addClass("f_init_bottoms_panel").css({width:(btnLen*80)});
                 $bottoms.append($.fd["init_bottoms"]($bottoms,head.bottoms));
                 $head.append($bottoms);
             }
 
-            return $head
+            return $head;
             // {
             //     operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
             //     status: "status",

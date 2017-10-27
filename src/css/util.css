@@ -1,0 +1,130 @@
+/* 加载进度条样式 */
+.loadingType .loading-progress{
+	width:400px;
+	height:20px;
+	position:relative;
+	border-radius:10px;
+	background-color:#fff;
+}
+.loadingType .progress-left{
+	position:absolute;
+	top:0;
+	left:0;
+	width:10%;
+	height:100%;
+	background-color:#1B95E7;
+	border-radius:10px;
+}
+.skin-blue-white .loadingPanel{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(255,255,255,0.5);
+	opacity:0.5;
+}
+.loadingType{
+	width:450px;
+	height:20px;
+	position:absolute;
+	top:50%;
+	margin-top:-10px;
+	left:50%;
+	margin-left:-200px;
+}
+.progress-finish{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:#00A854;
+	border-radius:10px;
+}
+
+/* 卡片共有样式 */
+.f_cardTable{
+	 border: 1px solid #f9f9f9;
+	 background-color: #fff;
+	 margin:10px 0;
+}
+.init_head{
+	background-color: #f8f8f8;
+    border-bottom: 1px solid #f9f9f9;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+}
+.head_operate{
+ 	left: 10px;
+    position: absolute;
+    top: 0;
+ }
+ .init_titleName{
+ 	width:100%;
+ }
+ .init_switch{
+ 	position: absolute;
+    right: 300px;
+    top: 0;
+ }
+ .f_init_bottoms_panel{
+ 	position: absolute;
+    right: 0;
+    top: 0;
+ }
+ .f_init_bottoms{
+ 	float:left;
+ 	margin-right:15px;
+ }
+ .f_init_absolutePanel{
+ 	border: 1px solid #ebebeb;
+    position: absolute;
+    width: 100px;
+    box-shadow: 1px 2px 3px #CCC;
+ }
+ .f_init_content{
+ 	padding:30px;
+ }
+ .f_init_absolutePanel>[name]{
+ 	height:40px;
+ 	line-height:40px;
+ 	padding-left:10px;
+ }
+  .f_init_absolutePanel>[name]:hover{
+ 	background-color: #EDF7FD;
+ }
+ .init_switch .basicStyle{
+ 	width:35px;
+ 	height:16px;
+ 	border-radius:6px;
+ 	position:relative;
+ 	display:inline-block;
+ }
+ 
+ .init_switch .close{
+ 	background-color:#00A854;
+ }
+ 
+ .init_switch .close{
+ 	background-color:#BCBCBC;
+ }
+.init_switch .basicStyle .circle{
+	width:12px;
+	height:12px;
+	background-color:#fff;
+	border-radius:6px;
+	position:absolute;
+	top:2px;
+	display:inline-block;
+}
+.init_switch .close .circle{
+	left:2px;
+}
+.init_switch .open .circle{
+	right:2px;
+}
+.f_init_row{
+	padding-bottom:10px;
+}
