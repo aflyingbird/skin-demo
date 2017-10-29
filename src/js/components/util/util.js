@@ -69,37 +69,14 @@
         }
         $.fd.init_checkbox = function($dom) {
             var $span = $("<span>").addClass("fa fa-square-o");//fa-square-o
-            $dom.on("click",".fa",function(){
-                if($(this).hasClass("fa-check-square-o")){
-                    $(this).removeClass("fa-check-square-o").addClass("fa-square-o");
-                }else{
-                    $(this).addClass("fa-check-square-o").removeClass("fa-square-o");
-                }
-            })
             return $span;
         }
         $.fd.init_radio = function($dom) {
             var $span = $("<span>").addClass("fa fa-circle-o");//fa fa-circle-o
-            $dom.on("click",".fa",function(){
-                if($(this).hasClass("fa-dot-circle-o")){
-                    $(this).removeClass("fa-dot-circle-o").addClass("fa-circle-o");
-                }else{
-                    $(this).addClass("fa-dot-circle-o").removeClass("fa-circle-o");
-                }
-            })
             return $span;
         }
         $.fd.init_collapse = function($dom) {
             var $span = $("<span>").addClass("fa fa-chevron-circle-right");//fa-chevron-circle-right
-            $dom.on("click",".fa",function(){
-                if($(this).hasClass("fa-chevron-circle-right")){
-                    $(this).removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-down");
-                    $(this).parent().parent().nextAll().show();
-                }else{
-                    $(this).addClass("fa-chevron-circle-right").removeClass("fa-chevron-circle-down");
-                    $(this).parent().parent().nextAll().hide();
-                }
-            })
             return $span;
         }
         $.fd.init_title = function($dom,param){
@@ -122,13 +99,7 @@
             "<span class = 'circle'></span>"+
             "</span>"+
             "</div>";
-            $dom.on("click",".fa",function(){
-                if($(this).hasClass("fa-toggle-off")){
-                    $(this).removeClass("fa-toggle-off").addClass("fa fa-toggle-on");
-                }else{
-                    $(this).addClass("fa-toggle-off").removeClass("fa fa-toggle-on");
-                }
-            })
+
             return $span;
         }
         $.fd.init_head = function(head){
@@ -190,11 +161,6 @@
             }
         }
         $.fd.init_bottoms = function($dom, btns) {
-            $dom.on("click",".f_init_bottoms_more",function(e){
-                e.stopPropagation();
-                $(this).next(".f_init_absolutePanel").show();
-                $("body").bind("click", body_ab_panle);
-            })
             var length = btns.length;
             var bottoms = [];
             for(var i = 0; i < length; i++) {
@@ -248,13 +214,66 @@
             }
             return obj;
         }
+        $.fd.bindClickByName = function ($dom,event) {
+            for(var key in event){
+                $dom.on(event[key].type,event[key].select,function(e){
+                    e.stopPropagation();
+                    var key = $(this).closest("[majorKey]").attr("majorKey");
+                    event[key].fun(key);
+                })
+            }
+        }
+        $.fd.bindCommonEvent = function($dom){
+            //开关切换
+            $dom.on("click",".fa-toggle-off, .fa-toggle-on",function(e){
+                e.stopPropagation();
+                if($(this).hasClass("fa-toggle-off")){
+                    $(this).removeClass("fa-toggle-off").addClass("fa fa-toggle-on");
+                }else{
+                    $(this).addClass("fa-toggle-off").removeClass("fa fa-toggle-on");
+                }
+            })
+            //更多按钮展开
+            $dom.on("click",".f_init_bottoms_more",function(e){
+                e.stopPropagation();
+                $(this).next(".f_init_absolutePanel").show();
+                $("body").bind("click", body_ab_panle);
+            })
+            //收起展开
+            $dom.on("click",".fa-chevron-circle-right, .fa-chevron-circle-down",function(){
+                if($(this).hasClass("fa-chevron-circle-right")){
+                    $(this).removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-down");
+                    $(this).parent().parent().nextAll().show();
+                }else{
+                    $(this).addClass("fa-chevron-circle-right").removeClass("fa-chevron-circle-down");
+                    $(this).parent().parent().nextAll().hide();
+                }
+            })
+            //单选
+            $dom.on("click",".fa-dot-circle-o, .fa-circle-o",function(){
+                if($(this).hasClass("fa-dot-circle-o")){
+                    $(this).removeClass("fa-dot-circle-o").addClass("fa-circle-o");
+                }else{
+                    $(this).addClass("fa-dot-circle-o").removeClass("fa-circle-o");
+                }
+            })
+            //多选
+            $dom.on("click",".fa-check-square-o, .fa-square-o",function(){
+                if($(this).hasClass("fa-check-square-o")){
+                    $(this).removeClass("fa-check-square-o").addClass("fa-square-o");
+                }else{
+                    $(this).addClass("fa-check-square-o").removeClass("fa-square-o");
+                }
+            })
+        }
         $.fd.cardTable = function(option){
             var defaultOpt = {
                 head:{
                     operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
                     status: "status",
                     custom: {name:"",text:"",type:""},//定制操作，type
-                    bottoms: []
+                    bottoms: [{name:"编辑",show:"data[i].key === ''&& data[i].status == '1'",disable:"data[i].status == '0'",readonly:false}],
+                    show:true // true / false / ('key == "12" && status == "1"') 值可以是一个Booleans也可以是一个表达式，根据返回的true/false判断是否需要显示
                 },
                 content:{
                     type: "form",
@@ -263,9 +282,17 @@
                 },
                 footer:{
                     labelWidth: "80px",
-                    params:[]
+                    params:[],
+                    show:false,
                 },
                 data: [],
+                event: {
+                    "编辑":{type:"click",select:"[name = '编辑']",fun:function(key){
+                           console.log(key);
+                       }
+                    }
+                },
+                div: $("<div>"),
                 icon: "f_cardTable",
                 width: "100%",
                 page: false
@@ -277,6 +304,7 @@
                 html : cardHtml,
                 dom : opt.div,
                 data: opt.data,
+                opt: opt,
                 dataObj: $.fd.changeArrayToObj(opt.data),
                 refresh : function(data){
                     data = data || [];
@@ -329,8 +357,9 @@
                 }
             }
             back.refresh(opt.data);
+            $.fd.bindClickByName(opt.div,opt.event);
+            $.fd.bindCommonEvent(opt.div);
             return back;
         }
-
     });
 })(jQuery);
