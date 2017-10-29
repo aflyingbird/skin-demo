@@ -104,7 +104,14 @@
         }
         $.fd.init_title = function($dom,param){
             // var $span = $("<div>").text(param.name?"{{"+param.name+"}}":"");
-            var $span = "<div class = 'init_titleName'><span>"+(param.name?"{{"+param.name+"}}":"")+"</span><span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span></div>"
+            var $span = "<div class = 'init_titleName'>"+
+                "<span "+(param.click?"class = 'titleClick'":"")+">"
+                +(param.name?"{{"+param.name+"}}":"")+"</span>"+
+                "<span style = 'margin-left:20px;'>"+
+                "<span>"+(param.subTitle.text?param.subTitle.text+"：":"")+"</span>"+
+                "<span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span>"+
+                "</span>"+
+                "</div>";
             return $span;
         }
         $.fd.init_switch = function($dom,param){
