@@ -38,7 +38,45 @@
             var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
             $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text(( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text)+"："));
             $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
+            $.fd.addDisplayMode($col,opt);
             return $col;
+        }
+        $.fd.addDisplayMode = function ($dom,opt) {
+            if(opt.show){
+                $dom.attr(":show",opt.show)
+            }
+            if(opt.disable){
+                $dom.attr(":disable",opt.disable)
+            }
+            if(opt.readonly){
+                $dom.attr(":readonly",opt.readonly)
+            }
+        }
+        $.fd.showDisplayMode = function($dom,dataObj){
+            $.each($("[:show]",$dom),function(e,d){
+                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var result = eval($(d).attr(":show"));
+                if(result){
+                    $(d).remove();
+                }
+                $(d).removeAttr(":show");
+            })
+            $.each($("[:disable]",$dom),function(e,d){
+                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var result = eval($(d).attr(":disable"));
+                if(result){
+                    $(d).addClass("disable");
+                }
+                $(d).removeAttr(":disable");
+            })
+            $.each($("[:readonly]",$dom),function(e,d){
+                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var result = eval($(d).attr(":readonly"));
+                if(result){
+                    $(d).addClass("readonly");
+                }
+                $(d).removeAttr(":readonly");
+            })
         }
         $.fn.selfHtml = function(){
             return $(this)[0].outerHTML;
@@ -79,7 +117,7 @@
             var $span = $("<span>").addClass("fa fa-chevron-circle-right");//fa-chevron-circle-right
             return $span;
         }
-        $.fd.init_title = function($dom,param){
+        $.fd.init_title = function($dom,param) {
             // var $span = $("<div>").text(param.name?"{{"+param.name+"}}":"");
             var $span = "<div class = 'init_titleName'>"+
                 "<span "+(param.click?"class = 'titleClick'":"")+">"
@@ -165,13 +203,15 @@
             var bottoms = [];
             for(var i = 0; i < length; i++) {
                 var item = btns[i];
+                var $item = $("<div>").addClass("f_init_bottoms");
+                $.fd.addDisplayMode($item,item);
                 if(item.child){
-                    bottoms.push($("<div>").addClass("f_init_bottoms")
+                    bottoms.push($item
                         .append($("<div>").addClass("f_init_bottoms_more").text(item.text || ("{{"+item.name+"}}")))
                         .append($.fd.init_absolutePanel(item.child))
                     );
                 }else{
-                    bottoms.push($("<div>").addClass("f_init_bottoms")
+                    bottoms.push($item
                         .append($("<span>").text(item.text || ("{{"+item.name+"}}"))));
                 }
             }
@@ -196,13 +236,13 @@
             return array;
         }
         $.fd.changeModel = function(modal, obj){
-            var matchs = modal.match(/{{.*?}}/g);
-            matchs = $.fd.removeSameArray(matchs);
-            var length = matchs.length;
+            var match = modal.match(/{{.*?}}/g);
+            match = $.fd.removeSameArray(match);
+            var length = match.length;
             var key = "";
             for(var i = 0; i < length; i++){
-                key = matchs[i].replace(/^{{/,"").replace(/}}$/,"");
-                modal = modal.replace(new RegExp(matchs[i],"g"), (obj[key] || ""));
+                key = match[i].replace(/^{{/,"").replace(/}}$/,"");
+                modal = modal.replace(new RegExp(match[i],"g"), (obj[key] || ""));
             }
             return modal;
         }
@@ -266,6 +306,7 @@
                 }
             })
         }
+
         $.fd.cardTable = function(option){
             var defaultOpt = {
                 head:{
@@ -303,9 +344,9 @@
             var back = {
                 html : cardHtml,
                 dom : opt.div,
-                data: opt.data,
+                data: [],
                 opt: opt,
-                dataObj: $.fd.changeArrayToObj(opt.data),
+                dataObj: [],
                 refresh : function(data){
                     data = data || [];
                     var len = data.length;
@@ -319,6 +360,9 @@
                             $dom.append($.fd.changeModel(modal, data[i]));
                         }
                     }
+                    opt.data = data;//刷新的时候需要同步更新数据
+                    opt.dataObj = $.fd.changeArrayToObj(opt.data);
+                    $.fd.showDisplayMode(opt.div,opt.dataObj);//根据数据处理页面需要显示和置灰的元素
                 },
                 add: function(data){
                     data = data || {};
