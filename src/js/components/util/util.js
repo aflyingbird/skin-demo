@@ -36,7 +36,7 @@
         }
         $.fd.init_col = function(obj,opt,width){
             var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
-            $col.append($("<span>").css({width: (opt.labelWidth || "auto")}).text(( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text)+"："));
+            $col.append($("<span>").css({width: (opt.labelWidth || "auto"),"text-align":"right"}).text(( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text)+"："));
             $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
             $.fd.addDisplayMode($col,opt);
             return $col;
@@ -117,12 +117,11 @@
             var $span = $("<span>").addClass("fa fa-chevron-circle-right");//fa-chevron-circle-right
             return $span;
         }
-        $.fd.init_title = function($dom,param) {
-            // var $span = $("<div>").text(param.name?"{{"+param.name+"}}":"");
+        $.fd.init_title = function($dom,param){
             var $span = "<div class = 'init_titleName'>"+
-                "<span "+(param.click?"class = 'titleClick'":"")+">"
+                "<span class = 'titleStyle "+(param.click?"titleClick":"")+"'>"
                 +(param.name?"{{"+param.name+"}}":"")+"</span>"+
-                "<span style = 'margin-left:20px;'>"+
+                "<span class = 'subTitleStyle'>"+
                 "<span>"+(param.subTitle.text?param.subTitle.text+"：":"")+"</span>"+
                 "<span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span>"+
                 "</span>"+
@@ -145,7 +144,7 @@
             var $operate = $("<div>").addClass("head_operate");//多选，单选和收缩的div,定宽
             var $title = $("<div>").addClass("head_title");//标题
             var btnLen = head.bottoms.length;
-            var pdr = btnLen * 80 + (head.custom.width || 0);
+            var pdr = btnLen * 60 + (head.custom.width || 0);
             $head.css({padding:"0px "+pdr+"px 0px 50px"});
             if(head.operate){
                 $operate.append($.fd["init_"+head.operate]($operate));
@@ -162,7 +161,7 @@
                 $head.append($custom);
             }
             if(btnLen > 0){
-                var $bottoms = $("<div>").addClass("f_init_bottoms_panel").css({width:(btnLen*80)});
+                var $bottoms = $("<div>").addClass("f_init_bottoms_panel").css({width:(btnLen*60)});
                 $bottoms.append($.fd["init_bottoms"]($bottoms,head.bottoms));
                 $head.append($bottoms);
             }
@@ -318,7 +317,7 @@
                 },
                 content:{
                     type: "form",
-                    labelWidth: "80px",
+                    labelWidth: "100px",
                     params: []
                 },
                 footer:{
@@ -329,8 +328,8 @@
                 data: [],
                 event: {
                     "编辑":{type:"click",select:"[name = '编辑']",fun:function(key){
-                           console.log(key);
-                       }
+                        console.log(key);
+                    }
                     }
                 },
                 div: $("<div>"),
