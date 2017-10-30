@@ -111,9 +111,11 @@
 	height:40px;
 	line-height:40px;
 	padding-left:10px;
+	color:#666;
 }
 .f_init_absolutePanel>[name]:hover{
 	background-color: #EDF7FD;
+	text-decoration:none;
 }
 .init_switch .basicStyle{
 	width:35px;
@@ -168,4 +170,11 @@
 .init_switch .fa{
 	margin-left:10px;
 	font-size:16px;
+}
+.f_init_bottoms.disable{
+	color: #CACACA;
+	cursor: not-allowed;
+}
+.f_init_bottoms.disable:hover{
+	text-decoration:none;
 }
