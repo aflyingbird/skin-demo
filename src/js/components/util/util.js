@@ -175,7 +175,7 @@
             return $span;
         }
         $.fd.init_collapse = function($dom) {
-            var $span = $("<span>").addClass("fa fa-chevron-circle-right");//fa-chevron-circle-right
+            var $span = $("<span>").addClass("fa fa-angle-right");//fa-chevron-circle-right
             return $span;
         }
         $.fd.init_title = function($dom,param){
@@ -350,12 +350,12 @@
                 $("body").bind("click", body_ab_panle);
             })
             //收起展开
-            $dom.on("click",".fa-chevron-circle-right, .fa-chevron-circle-down",function(){
-                if($(this).hasClass("fa-chevron-circle-right")){
-                    $(this).removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-down");
+            $dom.on("click",".fa-angle-right, .fa-angle-down",function(){
+                if($(this).hasClass("fa-angle-right")){
+                    $(this).removeClass("fa-angle-right").addClass("fa-angle-down");
                     $(this).parent().parent().nextAll().show();
                 }else{
-                    $(this).addClass("fa-chevron-circle-right").removeClass("fa-chevron-circle-down");
+                    $(this).addClass("fa-angle-right").removeClass("fa-angle-down");
                     $(this).parent().parent().nextAll().hide();
                 }
             })
@@ -411,12 +411,16 @@
             var opt = $.extend(true,{},defaultOpt,option);
             var sort = ["head","content","footer"];
             var cardHtml = $.fd.initModel(opt,sort);
+            var dataObj = {};
+            for(var i=0;i<opt.data.length ;i++){
+            	dataObj[opt.data[i].id] = opt.data[i];
+            }
             var back = {
                 html : cardHtml,
                 dom : opt.div,
-                data: [],
+                data: opt.data,
                 opt: opt,
-                dataObj: [],
+                dataObj: dataObj,
                 refresh : function(data){
                     data = data || [];
                     var len = data.length;

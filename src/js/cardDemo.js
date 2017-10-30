@@ -16,7 +16,7 @@
             },
             content:{
                 type: "form",
-                labelWidth: "100px",
+                labelWidth: "120px",
                 params: [{item:[{name:"kpsj",text:"考评时间"},{name:"sbjzsj",text:"上报截止时间"}]},{item:[{name:"remarks",text:"备注"}]}]
             },
             footer:{
@@ -30,38 +30,39 @@
                 "编辑":{
                     type:"click",
                     select:"[name = '编辑']",
-                    fun:editVersion
+//                  fun:editVersion
                 },
                 "复制":{
                     type:"click",
                     select:"[name = '复制']",
-                    fun:copyVersion
+//                  fun:copyVersion
                 },
                 "定版":{
                     type:"click",
                     select:"[name = '更多-定版']",
-                    fun:sureVersion
+//                  fun:sureVersion
                 },
                 "删除":{
                     type:"click",
                     select:"[name = '更多-删除']",
-                    fun:deleteVersion
+//                  fun:deleteVersion
                 },
                 "生效版本":{
                     type:"click",
                     select:".init_switch>.fa",
-                    fun:comeIntoForce
+//                  fun:comeIntoForce
                 },
                 "标题查看":{
                     type:"click",
                     select:".init_titleName>.titleClick",
-                    fun:enterNextPage
+                 	fun:enterNextPage
                 },
             },
             icon: "f_cardTable",
             width: "100%",
             page: false
         };
+        var obj;
         function refreshVersion(){
 //			$.fd.ajax({
 //				type: "get",
@@ -100,13 +101,16 @@
                 remarks:"第一期考评信息配置按照上次开会的来进行配置的。第一期考评信息配置按照上次开会的来进行配置的。第一期考"
             }];
             cardOpt.data = data;
-            for(var i = 0;i<data.length;i++){
-                versionObj[data[i].id] = data[i];
-            }
-            $.fd.cardTable(cardOpt);
+//          for(var i = 0;i<data.length;i++){
+//              versionObj[data[i].id] = data[i];
+//          }
+            obj = $.fd.cardTable(cardOpt);
 //				}
 //			});
         }
         refreshVersion();
+        function enterNextPage(d){
+        	console.log(obj.getData(d));
+        }
     });
 }(jQuery));
