@@ -115,7 +115,7 @@
         }
         $.fd.showDisplayMode = function($dom,dataObj){
             $.each($("[show]",$dom),function(e,d){
-                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var data = dataObj[$(d).closest("[majorKey]").attr("majorKey")];
                 var result = eval($(d).attr("show"));
                 if(result){
                     $(d).remove();
@@ -123,7 +123,7 @@
                 $(d).removeAttr("show");
             })
             $.each($("[disable]",$dom),function(e,d){
-                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var data = dataObj[$(d).closest("[majorKey]").attr("majorKey")];
                 var result = eval($(d).attr("disable"));
                 if(result){
                     $(d).addClass("disable");
@@ -131,7 +131,7 @@
                 $(d).removeAttr("disable");
             })
             $.each($("[readonly]",$dom),function(e,d){
-                var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
+                var data = dataObj[$(d).closest("[majorKey]").attr("majorKey")];
                 var result = eval($(d).attr("readonly"));
                 if(result){
                     $(d).addClass("readonly");
@@ -261,6 +261,16 @@
             for(var i = 0; i < length; i++) {
                 var item = btns[i];
                 var $item = $("<div>").addClass("f_init_bottoms").attr("name",item.name);
+                console.log(item)
+                if(item.show){
+                    $item.attr("show",item.show)
+                }
+                if(item.disable){
+                    $item.attr("disable",item.disable)
+                }
+                if(item.readonly){
+                    $item.attr("readonly",item.readonly)
+                }
                 $.fd.addDisplayMode($item,item);
                 if(item.child){
                     bottoms.push($item
@@ -317,7 +327,9 @@
                     e.stopPropagation();
                     var key = e.data
                     var majorKey = $(this).closest("[majorKey]").attr("majorKey");
-                    event[key].fun(majorKey);
+                    if(!($(this).hasClass("disable"))){
+                        event[key].fun(majorKey);
+                    }
                 })
             }
         }
@@ -419,7 +431,7 @@
                         }
                     }
                     opt.data = data;//刷新的时候需要同步更新数据
-                    opt.dataObj = $.fd.changeArrayToObj(opt.data);
+                    opt.dataObj = $.fd.changeArrayToObj(opt.data,opt.key);
                     $.fd.showDisplayMode(opt.div,opt.dataObj);//根据数据处理页面需要显示和置灰的元素
                 },
                 add: function(data){
