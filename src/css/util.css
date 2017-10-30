@@ -24,6 +24,15 @@
 	background-color:rgba(255,255,255,0.5);
 	opacity:0.5;
 }
+.skin-black .loadingPanel{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.5);
+	opacity:0.5;
+}
 .loadingType{
 	width:450px;
 	height:20px;
@@ -45,71 +54,80 @@
 
 /* 卡片共有样式 */
 .f_cardTable{
-	 border: 1px solid #f9f9f9;
-	 background-color: #fff;
-	 margin:10px 0;
+	border: 1px solid #D9D9D9;
+	background-color: #fff;
+	margin:10px 0;
 }
 .init_head{
 	background-color: #f8f8f8;
-    border-bottom: 1px solid #f9f9f9;
-    height: 50px;
-    line-height: 50px;
-    position: relative;
+	border-bottom: 1px solid #D9D9D9;
+	height: 50px;
+	line-height: 50px;
+	position: relative;
 }
 .head_operate{
- 	left: 10px;
-    position: absolute;
-    top: 0;
- }
- .init_titleName{
- 	width:100%;
- }
- .init_switch{
- 	position: absolute;
-    right: 300px;
-    top: 0;
- }
- .f_init_bottoms_panel{
- 	position: absolute;
-    right: 0;
-    top: 0;
- }
- .f_init_bottoms{
- 	float:left;
- 	margin-right:15px;
- }
- .f_init_absolutePanel{
- 	border: 1px solid #ebebeb;
-    position: absolute;
-    width: 100px;
-    box-shadow: 1px 2px 3px #CCC;
- }
- .f_init_content{
- 	padding:30px;
- }
- .f_init_absolutePanel>[name]{
- 	height:40px;
- 	line-height:40px;
- 	padding-left:10px;
- }
-  .f_init_absolutePanel>[name]:hover{
- 	background-color: #EDF7FD;
- }
- .init_switch .basicStyle{
- 	width:35px;
- 	height:16px;
- 	border-radius:6px;
- 	position:relative;
- 	display:inline-block;
- }
- 
- .init_switch .close{
- 	background-color:#00A854;
- }
- 
- .init_switch .close{
- 	background-color:#BCBCBC;
- }
+	left: 10px;
+	position: absolute;
+	top: 0;
+}
+.init_titleName{
+	width:100%;
+}
+.init_switch{
+	position: absolute;
+	right: 300px;
+	top: 0;
+}
+.f_init_bottoms_panel{
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.f_init_bottoms{
+	display:inline-block;
+	margin:0 10px;
+	color:#1B95E7;
+	cursor:pointer;
+}
+.f_init_bottoms:hover{
+	text-decoration:underline;
+}
+.f_init_absolutePanel{
+	border: 1px solid #ebebeb;
+	position: absolute;
+	width: 100px;
+	box-shadow: 1px 2px 3px #CCC;
+	top:40px;
+	right:15px;
+	background-color:#fff;
+	display:none;
+}
+.f_init_content{
+	padding:0 30px 10px 30px;
+}
+.f_init_absolutePanel>[name]{
+	height:40px;
+	line-height:40px;
+	padding-left:10px;
+}
+.f_init_absolutePanel>[name]:hover{
+	background-color: #EDF7FD;
+}
+.init_switch .basicStyle{
+	width:35px;
+	height:16px;
+	border-radius:6px;
+	position:relative;
+	display:inline-block;
+}
+
+.init_switch .close{
+	background-color:#00A854;
+}
+
+.init_switch .close{
+	background-color:#BCBCBC;
+}
 .init_switch .basicStyle .circle{
 	width:12px;
 	height:12px;
@@ -125,6 +143,23 @@
 .init_switch .open .circle{
 	right:2px;
 }
-.f_init_row{
-	padding-bottom:10px;
+.f_init_content .f_init_row{
+	margin:20px 0 10px 0;
+}
+
+.titleClick:hover{
+	color:#1B95E7 ;
+	cursor:pointer;
+	text-decoration:underline;
+}
+.titleStyle{
+	font-size:16px;
+	color:#404040;
+}
+.subTitleStyle{
+	margin-left:20px;
+	font-size:12px;
+}
+.f_init_col > span{
+	display:inline-block;
 }
