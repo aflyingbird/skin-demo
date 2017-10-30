@@ -4,6 +4,66 @@
     'use strict';
     $(function(){
         $.fd = $.fd || {};
+        //遮罩层方法（进度条+gif图）
+        $.fd.loadingProgress = function($div,close){
+            $div.css("position","relative");
+            var loading_count = 5;
+            var clock = setInterval(function(){
+                if($(".loadingPanel",$div).length == 0){
+                    var html = "<div class = 'loadingPanel'>"+
+                        "<div class = 'loadingType'>"+
+                        "<div id = 'loading-progress' class = 'loading-progress' style = 'float:left;'>"+
+                        "<div class = 'progress-left'></div>"+
+                        "</div>"+
+                        "<span style = 'float:left;margin-left:20px;' class = 'progressFont'><span class = 'progress-num'>5</span>%</span>"+
+                        "</div>"+
+                        (close?"<span class = 'fa fa-times-circle' style = 'position:absolute;top:3px;right:3px;color:red;'></span>":"")+
+                        "</div>";
+                    $div.append(html);
+                }
+                loading_count+=5;
+                $("#loading-progress .progress-left",$div).css("width",loading_count+"%");
+                $(".progress-num",$div).text(loading_count);
+                if(loading_count == 70){
+                    clearInterval(clock);
+                }
+            },500);
+            $("fa-times-circle",$div).bind("click",function(){
+                $(this).parent().remove();
+            });
+        };
+        //$.fd.loadingMask($(".workload .oue"));
+        //$.fd.removeMask($div);
+        $.fd.removeProgress = function($div){
+            var html =  "<div class = 'loading-progress' style = 'float:left;'>"+
+                "<div class = 'progress-finish'></div>"+
+                "</div>"+
+                "<span class = 'fa fa-check-circle' style = 'color:#00A854;margin-left:20px;'></span>";
+            $(".loadingPanel .loadingType",$div).empty().append(html);
+            setTimeout(function(){
+                $(".loadingPanel",$div).remove();
+            },300);
+        };
+
+        $.fd.loadingCircle = function($div,close){
+            $div.css("position","relative");
+            if($(".loadingPanel",$div).length == 0){
+                var html = "<div class = 'loadingPanel'>"+
+                    "<div class = 'loadingType'>"+
+                    "<div class = 'bgc'></div>"+
+                    "</div>"+
+                    (close?"<span class = 'fa fa-times-circle' style = 'position:absolute;top:3px;right:3px;color:red;'></span>":"")+
+                    "</div>";
+                $div.append(html);
+            }
+            $("fa-times-circle",$div).bind("click",function(){
+                $(this).parent().remove();
+            });
+        }
+        $.fd.removeCircle = function($div){
+            $(".loadingPanel",$div).remove();
+        };
+
         //根据sort拼接模板
         $.fd.initModel = function(opt,sort){
             var $root = $("<div>").addClass(opt.icon||"").attr("majorKey","{{"+opt.key+"}}");
