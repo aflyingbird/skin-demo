@@ -12,10 +12,10 @@
                 if($(".loadingPanel",$div).length == 0){
                     var html = "<div class = 'loadingPanel'>"+
                         "<div class = 'loadingType'>"+
-                        "<div id = 'loading-progress' class = 'loading-progress' style = 'float:left;'>"+
+                        "<div id = 'loading-progress' class = 'loading-progress'>"+
                         "<div class = 'progress-left'></div>"+
                         "</div>"+
-                        "<span style = 'float:left;margin-left:20px;' class = 'progressFont'><span class = 'progress-num'>5</span>%</span>"+
+                        "<span style = 'display:inline-block;margin-left:20px;' class = 'progressFont'><span class = 'progress-num'>5</span>%</span>"+
                         "</div>"+
                         (close?"<span class = 'fa fa-times-circle' style = 'position:absolute;top:3px;right:3px;color:red;'></span>":"")+
                         "</div>";
@@ -29,11 +29,12 @@
                 }
             },500);
             $("fa-times-circle",$div).bind("click",function(){
+                clearInterval(clock);
                 $(this).parent().remove();
             });
         };
-        //$.fd.loadingMask($(".workload .oue"));
-        //$.fd.removeMask($div);
+        //$.fd.loadingProgress($(".workload .oue"));
+        //$.fd.removeProgress($div);
         $.fd.removeProgress = function($div){
             var html =  "<div class = 'loading-progress' style = 'float:left;'>"+
                 "<div class = 'progress-finish'></div>"+
@@ -179,8 +180,8 @@
         }
         $.fd.init_title = function($dom,param){
             var $span = "<div class = 'init_titleName'>"+
-                "<span class = 'titleStyle "+(param.click?"titleClick":"")+"'>"
-                +(param.name?"{{"+param.name+"}}":"")+"</span>"+
+                "<span class = 'titleStyle "+(param.click?"titleClick":"")+"'>"+
+                (param.name?"{{"+param.name+"}}":"")+"</span>"+
                 "<span class = 'subTitleStyle'>"+
                 "<span>"+(param.subTitle.text?param.subTitle.text+"：":"")+"</span>"+
                 "<span>"+(param.subTitle.name?"{{"+param.subTitle.name+"}}":"")+"</span>"+
@@ -188,15 +189,12 @@
                 "</div>";
             return $span;
         }
-        $.fd.init_switch = function($dom,param){
+        $.fd.init_switch = function($dom,param,pdr){
             $dom.css("width",param.width);
-            var $span = "<div class = 'init_switch'>";
-            "<span>"+param.text+"</span>"+
-            "<span class = 'close basicStyle'>" +
-            "<span class = 'circle'></span>"+
-            "</span>"+
-            "</div>";
-
+            var $span = "<div class = 'init_switch' style = 'right:"+(pdr+20)+"px;'>"+
+                "<span>"+param.text+"</span>"+
+                "<span class = 'fa fa-toggle-off'></span>" +
+                "</div>";
             return $span;
         }
         $.fd.init_head = function(head){
@@ -217,7 +215,7 @@
             }
             if(head.custom.type){
                 var $custom = $("<div>");
-                $custom.append($.fd["init_"+head.custom.type]($custom,head.custom));
+                $custom.append($.fd["init_"+head.custom.type]($custom,head.custom,pdr));
                 $head.append($custom);
             }
             if(btnLen > 0){
@@ -328,9 +326,9 @@
             $dom.on("click",".fa-toggle-off, .fa-toggle-on",function(e){
                 e.stopPropagation();
                 if($(this).hasClass("fa-toggle-off")){
-                    $(this).removeClass("fa-toggle-off").addClass("fa fa-toggle-on");
+                    $(this).removeClass("fa-toggle-off").addClass("fa-toggle-on");
                 }else{
-                    $(this).addClass("fa-toggle-off").removeClass("fa fa-toggle-on");
+                    $(this).addClass("fa-toggle-off").removeClass("fa-toggle-on");
                 }
             })
             //更多按钮展开
