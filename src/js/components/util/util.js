@@ -43,39 +43,39 @@
         }
         $.fd.addDisplayMode = function ($dom,opt) {
             if(opt.show){
-                $dom.attr(":show",opt.show)
+                $dom.attr("show",opt.show)
             }
             if(opt.disable){
-                $dom.attr(":disable",opt.disable)
+                $dom.attr("disable",opt.disable)
             }
             if(opt.readonly){
-                $dom.attr(":readonly",opt.readonly)
+                $dom.attr("readonly",opt.readonly)
             }
         }
         $.fd.showDisplayMode = function($dom,dataObj){
-            $.each($("[:show]",$dom),function(e,d){
+            $.each($("[show]",$dom),function(e,d){
                 var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
-                var result = eval($(d).attr(":show"));
+                var result = eval($(d).attr("show"));
                 if(result){
                     $(d).remove();
                 }
-                $(d).removeAttr(":show");
+                $(d).removeAttr("show");
             })
-            $.each($("[:disable]",$dom),function(e,d){
+            $.each($("[disable]",$dom),function(e,d){
                 var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
-                var result = eval($(d).attr(":disable"));
+                var result = eval($(d).attr("disable"));
                 if(result){
                     $(d).addClass("disable");
                 }
-                $(d).removeAttr(":disable");
+                $(d).removeAttr("disable");
             })
-            $.each($("[:readonly]",$dom),function(e,d){
+            $.each($("[readonly]",$dom),function(e,d){
                 var data = dataObj[$(d).closest("majorKey").attr("majorKey")];
-                var result = eval($(d).attr(":readonly"));
+                var result = eval($(d).attr("readonly"));
                 if(result){
                     $(d).addClass("readonly");
                 }
-                $(d).removeAttr(":readonly");
+                $(d).removeAttr("readonly");
             })
         }
         $.fn.selfHtml = function(){
@@ -202,7 +202,7 @@
             var bottoms = [];
             for(var i = 0; i < length; i++) {
                 var item = btns[i];
-                var $item = $("<div>").addClass("f_init_bottoms");
+                var $item = $("<div>").addClass("f_init_bottoms").attr("name",item.name);
                 $.fd.addDisplayMode($item,item);
                 if(item.child){
                     bottoms.push($item
@@ -255,10 +255,11 @@
         }
         $.fd.bindClickByName = function ($dom,event) {
             for(var key in event){
-                $dom.on(event[key].type,event[key].select,function(e){
+                $dom.on(event[key].type,event[key].select,key,function(e){
                     e.stopPropagation();
-                    var key = $(this).closest("[majorKey]").attr("majorKey");
-                    event[key].fun(key);
+                    var key = e.data
+                    var majorKey = $(this).closest("[majorKey]").attr("majorKey");
+                    event[key].fun(majorKey);
                 })
             }
         }
@@ -312,7 +313,7 @@
                     operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
                     status: "status",
                     custom: {name:"",text:"",type:""},//定制操作，type
-                    bottoms: [{name:"编辑",show:"data[i].key === ''&& data[i].status == '1'",disable:"data[i].status == '0'",readonly:false}],
+                    bottoms: [{name:"编辑",show:"data.key === ''&& data.status == '1'",disable:"data.status == '0'",readonly:false}],
                     show:true // true / false / ('key == "12" && status == "1"') 值可以是一个Booleans也可以是一个表达式，根据返回的true/false判断是否需要显示
                 },
                 content:{
