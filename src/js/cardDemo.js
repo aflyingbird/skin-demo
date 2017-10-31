@@ -17,7 +17,7 @@
             content:{
                 type: "form",
                 labelWidth: "120px",
-                params: [{item:[{name:"kpsj",text:"考评时间"},{name:"sbjzsj",text:"上报截止时间"}]},{item:[{name:"remarks",text:"备注"}]}]
+                params: [{item:[{name:"kpsj",text:""},{name:"sbjzsj",text:"上报截止时间"}]},{item:[{name:"remarks",text:"备注"}]}]
             },
             footer:{
                 labelWidth: "80px",

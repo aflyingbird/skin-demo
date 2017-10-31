@@ -97,7 +97,9 @@
         }
         $.fd.init_col = function(obj,opt,width){
             var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
-            $col.append($("<span>").css({width: (opt.labelWidth || "auto"),"text-align":"right"}).text(( obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text)+"："));
+            var text =  obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text;
+    		text = text === "" ? "":(text+": ");
+            $col.append($("<span>").css({width: (opt.labelWidth || "auto"),"text-align":"right"}).text(text));
             $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
             $.fd.addDisplayMode($col,opt);
             return $col;
