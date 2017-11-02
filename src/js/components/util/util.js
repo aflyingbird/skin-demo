@@ -98,7 +98,7 @@
         $.fd.init_col = function(obj,opt,width){
             var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
             var text =  obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text;
-    		text = text === "" ? "":(text+": ");
+            text = text === "" ? "":(text+": ");
             $col.append($("<span>").css({width: (opt.labelWidth || "auto"),"text-align":"right"}).text(text));
             $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
             $.fd.addDisplayMode($col,opt);
@@ -191,29 +191,46 @@
                 "</div>";
             return $span;
         }
+        $.fd.init_status = function($dom,param){
+            var $span = $("<span>");
+            if(typeof(param) === "object"){
+                for(var key in param){
+                    $span.text(param[key]);
+                }
+            }else{
+                $span.text("{{"+param+"}}");
+            }
+
+            return $span;
+        }
         $.fd.init_switch = function($dom,param,pdr){
             $dom.css("width",param.width);
             var $span = "<div class = 'init_switch' style = 'right:"+(pdr+20)+"px;'>"+
                 "<span>"+param.text+"</span>"+
                 "<span class = 'fa fa-toggle-off'></span>" +
                 "</div>";
+            $.fd.addDisplayMode($dom,param);
             return $span;
         }
         $.fd.init_head = function(head){
             var $head = $("<div>").addClass("init_head");//头部最外层DIV
             var $operate = $("<div>").addClass("head_operate");//多选，单选和收缩的div,定宽
             var $title = $("<div>").addClass("head_title");//标题
+            var $status = $("<div>").addClass("head_status");//状态
             var btnLen = head.bottoms.length;
             var pdr = btnLen * 60 + (head.custom.width || 0);
-            $head.css({padding:"0px "+pdr+"px 0px 50px"});
+            $head.css({padding:"0px "+pdr+"px 0px 45px"});
             if(head.operate){
                 $operate.append($.fd["init_"+head.operate]($operate));
                 $head.append($operate);
             }
             if(head.title){
-                var $title = $("<div>");
                 $title.append($.fd["init_title"]($title,head.title));
                 $head.append($title);
+            }
+            if(head.status){
+                $status.append($.fd["init_status"]($status,head.status));
+                $head.append($status);
             }
             if(head.custom.type){
                 var $custom = $("<div>");
@@ -225,7 +242,6 @@
                 $bottoms.append($.fd["init_bottoms"]($bottoms,head.bottoms));
                 $head.append($bottoms);
             }
-
             return $head;
             // {
             //     operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
@@ -263,7 +279,6 @@
             for(var i = 0; i < length; i++) {
                 var item = btns[i];
                 var $item = $("<div>").addClass("f_init_bottoms").attr("name",item.name);
-                console.log(item)
                 if(item.show){
                     $item.attr("show",item.show)
                 }
@@ -327,7 +342,7 @@
             for(var key in event){
                 $dom.on(event[key].type,event[key].select,key,function(e){
                     e.stopPropagation();
-                    var key = e.data
+                    var key = e.data;
                     var majorKey = $(this).closest("[majorKey]").attr("majorKey");
                     if(!($(this).hasClass("disable"))){
                         event[key].fun(majorKey);
@@ -415,7 +430,7 @@
             var cardHtml = $.fd.initModel(opt,sort);
             var dataObj = {};
             for(var i=0;i<opt.data.length ;i++){
-            	dataObj[opt.data[i].id] = opt.data[i];
+                dataObj[opt.data[i].id] = opt.data[i];
             }
             var back = {
                 html : cardHtml,
@@ -478,7 +493,7 @@
             }
             back.refresh(opt.data);
             $.fd.bindClickByName(opt.div,opt.event);
-            $.fd.bindCommonEvent(opt.div);
+            $.fd.bindCommonEvent(opt.div,opt.event);
             return back;
         }
     });

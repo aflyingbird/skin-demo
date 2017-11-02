@@ -59,7 +59,7 @@
 .f_cardTable{
 	border: 1px solid #D9D9D9;
 	background-color: #fff;
-	margin:10px 0;
+	margin-top:20px;
 }
 .init_head{
 	background-color: #f8f8f8;
@@ -72,9 +72,6 @@
 	left: 10px;
 	position: absolute;
 	top: 0;
-}
-.init_titleName{
-	width:90%;
 }
 .init_switch{
 	position: absolute;
@@ -177,4 +174,19 @@
 }
 .f_init_bottoms.disable:hover{
 	text-decoration:none;
+}
+.head_status{
+	float:left;
+}
+.head_status>span{
+	display:inline-block;
+	margin-left:20px;
+	line-height:1;
+	background-color:#A7E1C4;
+	padding:10px;
+	font-size:12px;
+	color:#00643B;
+}
+.head_title{
+	float:left;
 }
