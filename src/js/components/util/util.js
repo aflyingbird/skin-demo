@@ -98,7 +98,7 @@
         $.fd.init_col = function(obj,opt,width){
             var $col = $("<div>").addClass("f_init_col").css({ width: width,display:"inline-block"});
             var text =  obj.text == undefined ? ("{{" + obj.name + "}}") : obj.text;
-            text = text === "" ? "":(text+": ");
+            text = text === "" ? "":(text+"：");
             $col.append($("<span>").css({width: (opt.labelWidth || "auto"),"text-align":"right"}).text(text));
             $col.append($("<span>").addClass("f_init_col_content").text("{{" + obj.name + "}}"));
             $.fd.addDisplayMode($col,opt);
@@ -177,7 +177,7 @@
             return $span;
         }
         $.fd.init_collapse = function($dom) {
-            var $span = $("<span>").addClass("fa fa-angle-right");//fa-chevron-circle-right
+            var $span = $("<span>").addClass("fa fa-angle-down");//fa-chevron-circle-right
             return $span;
         }
         $.fd.init_title = function($dom,param){
@@ -192,22 +192,20 @@
             return $span;
         }
         $.fd.init_status = function($dom,param){
-            var $span = $("<span>");
-            if(typeof(param) === "object"){
-                for(var key in param){
-                    $span.text(param[key]);
-                }
-            }else{
+            if(param){
+                var $span = $("<span>");
                 $span.text("{{"+param+"}}");
+                return $span;
             }
 
-            return $span;
         }
         $.fd.init_switch = function($dom,param,pdr){
             $dom.css("width",param.width);
             var $span = "<div class = 'init_switch' style = 'right:"+(pdr+20)+"px;'>"+
-                "<span>"+param.text+"</span>"+
-                "<span class = 'fa fa-toggle-off'></span>" +
+                "<span style = 'float:left;'>"+param.text+"</span>"+
+                "<span class = 'basicStyle close' name = '"+param.name+"'>"+
+                "<div class = 'circle'></div>"+
+                "</span>" +
                 "</div>";
             $.fd.addDisplayMode($dom,param);
             return $span;
@@ -291,7 +289,7 @@
                 $.fd.addDisplayMode($item,item);
                 if(item.child){
                     bottoms.push($item
-                        .append($("<div>").addClass("f_init_bottoms_more").text(item.text || ("{{"+item.name+"}}")))
+                        .append($("<span>").addClass("f_init_bottoms_more").text(item.text || ("{{"+item.name+"}}")))
                         .append($.fd.init_absolutePanel(item.child))
                     );
                 }else{
@@ -340,26 +338,36 @@
         }
         $.fd.bindClickByName = function ($dom,event) {
             for(var key in event){
-                $dom.on(event[key].type,event[key].select,key,function(e){
-                    e.stopPropagation();
-                    var key = e.data;
-                    var majorKey = $(this).closest("[majorKey]").attr("majorKey");
-                    if(!($(this).hasClass("disable"))){
-                        event[key].fun(majorKey);
+                if(event[key].type == "swith"){
+                    if($dom.addEventListener){
+                        $dom.addEventListener("swith",event[key].fun,false);
+                    }else if($dom.attachEvent){//attachEvent----应用于IE
+                        $dom.attachEvent("onswith",event[key].fun);
                     }
-                })
+                }else{
+                    $dom.on(event[key].type,event[key].select,key,function(e){
+                        e.stopPropagation();
+                        var key = e.data;
+                        var majorKey = $(this).closest("[majorKey]").attr("majorKey");
+                        if(!($(this).hasClass("disable"))){
+                            event[key].fun(majorKey);
+                        }
+                    })
+                }
             }
         }
         $.fd.bindCommonEvent = function($dom){
             //开关切换
-            $dom.on("click",".fa-toggle-off, .fa-toggle-on",function(e){
-                e.stopPropagation();
-                if($(this).hasClass("fa-toggle-off")){
-                    $(this).removeClass("fa-toggle-off").addClass("fa-toggle-on");
-                }else{
-                    $(this).addClass("fa-toggle-off").removeClass("fa-toggle-on");
-                }
-            })
+//            $dom.on("click",".fa-toggle-off, .fa-toggle-on",function(e){
+//                e.stopPropagation();
+//                if($(this).hasClass("fa-toggle-off")){
+//                    $(this).removeClass("fa-toggle-off").addClass("fa-toggle-on");
+//                }else{
+//                    $(this).addClass("fa-toggle-off").removeClass("fa-toggle-on");
+//                }
+////                $(this).onswith()
+//            })
+
             //更多按钮展开
             $dom.on("click",".f_init_bottoms_more",function(e){
                 e.stopPropagation();
@@ -493,7 +501,7 @@
             }
             back.refresh(opt.data);
             $.fd.bindClickByName(opt.div,opt.event);
-            $.fd.bindCommonEvent(opt.div,opt.event);
+            $.fd.bindCommonEvent(opt.div);
             return back;
         }
     });
