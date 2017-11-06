@@ -8,19 +8,19 @@
         $.fd.loadingProgress = function($div,close){
             $div.css("position","relative");
             var loading_count = 5;
+            if($(".loadingPanel",$div).length == 0){
+                var html = "<div class = 'loadingPanel'>"+
+                    "<div class = 'loadingType'>"+
+                    "<div id = 'loading-progress' class = 'loading-progress'>"+
+                    "<div class = 'progress-left'></div>"+
+                    "</div>"+
+                    "<span style = 'display:inline-block;margin-left:20px;' class = 'progressFont'><span class = 'progress-num'>5</span>%</span>"+
+                    "</div>"+
+                    (close?"<span class = 'fa fa-times-circle' style = 'position:absolute;top:3px;right:3px;color:red;'></span>":"")+
+                    "</div>";
+                $div.append(html);
+            }
             var clock = setInterval(function(){
-                if($(".loadingPanel",$div).length == 0){
-                    var html = "<div class = 'loadingPanel'>"+
-                        "<div class = 'loadingType'>"+
-                        "<div id = 'loading-progress' class = 'loading-progress'>"+
-                        "<div class = 'progress-left'></div>"+
-                        "</div>"+
-                        "<span style = 'display:inline-block;margin-left:20px;' class = 'progressFont'><span class = 'progress-num'>5</span>%</span>"+
-                        "</div>"+
-                        (close?"<span class = 'fa fa-times-circle' style = 'position:absolute;top:3px;right:3px;color:red;'></span>":"")+
-                        "</div>";
-                    $div.append(html);
-                }
                 loading_count+=5;
                 $("#loading-progress .progress-left",$div).css("width",loading_count+"%");
                 $(".progress-num",$div).text(loading_count);
@@ -39,13 +39,15 @@
             var html =  "<div class = 'loading-progress' style = 'float:left;'>"+
                 "<div class = 'progress-finish'></div>"+
                 "</div>"+
-                "<span class = 'fa fa-check-circle' style = 'color:#00A854;margin-left:20px;'></span>";
+                "<span class = 'fa fa-check-circle' style = 'color:#00A854;margin-left:20px;float:left;margin-top:-3px;'></span>";
             $(".loadingPanel .loadingType",$div).empty().append(html);
             setTimeout(function(){
                 $(".loadingPanel",$div).remove();
             },300);
         };
-
+        $.fd.removeProgressError = function($div){
+            $(".loadingPanel",$div).remove();
+        };
         $.fd.loadingCircle = function($div,close){
             $div.css("position","relative");
             if($(".loadingPanel",$div).length == 0){
@@ -197,7 +199,6 @@
                 $span.text("{{"+param+"}}");
                 return $span;
             }
-
         }
         $.fd.init_switch = function($dom,param,pdr){
             $dom.css("width",param.width);
@@ -338,6 +339,9 @@
         }
         $.fd.bindClickByName = function ($dom,event) {
             for(var key in event){
+                $dom.off(event[key].type);
+            }
+            for(var key in event){
                 if(event[key].type == "swith"){
                     if($dom.addEventListener){
                         $dom.addEventListener("swith",event[key].fun,false);
@@ -369,13 +373,13 @@
 //            })
 
             //更多按钮展开
-            $dom.on("click",".f_init_bottoms_more",function(e){
+            $dom.on("click",".init_head .f_init_bottoms_more",function(e){
                 e.stopPropagation();
                 $(this).next(".f_init_absolutePanel").show();
                 $("body").bind("click", body_ab_panle);
             })
             //收起展开
-            $dom.on("click",".fa-angle-right, .fa-angle-down",function(){
+            $dom.on("click",".init_head .fa-angle-right, .init_head .fa-angle-down",function(){
                 if($(this).hasClass("fa-angle-right")){
                     $(this).removeClass("fa-angle-right").addClass("fa-angle-down");
                     $(this).parent().parent().nextAll().show();
@@ -385,7 +389,7 @@
                 }
             })
             //单选
-            $dom.on("click",".fa-dot-circle-o, .fa-circle-o",function(){
+            $dom.on("click",".init_head .fa-dot-circle-o, .init_head .fa-circle-o",function(){
                 if($(this).hasClass("fa-dot-circle-o")){
                     $(this).removeClass("fa-dot-circle-o").addClass("fa-circle-o");
                 }else{
@@ -393,7 +397,7 @@
                 }
             })
             //多选
-            $dom.on("click",".fa-check-square-o, .fa-square-o",function(){
+            $dom.on("click",".init_head .fa-check-square-o, .init_head .fa-square-o",function(){
                 if($(this).hasClass("fa-check-square-o")){
                     $(this).removeClass("fa-check-square-o").addClass("fa-square-o");
                 }else{
@@ -405,10 +409,8 @@
         $.fd.cardTable = function(option){
             var defaultOpt = {
                 head:{
-                    operate: "checkbox/radio/collapse/''",//多选，单选，收缩展开,没有任何内容
-                    status: "status",
-                    custom: {name:"",text:"",type:""},//定制操作，type
-                    bottoms: [{name:"编辑",show:"data.key === ''&& data.status == '1'",disable:"data.status == '0'",readonly:false}],
+                    custom: {},//定制操作，type
+                    bottoms: [],
                     show:true // true / false / ('key == "12" && status == "1"') 值可以是一个Booleans也可以是一个表达式，根据返回的true/false判断是否需要显示
                 },
                 content:{
@@ -422,12 +424,7 @@
                     show:false,
                 },
                 data: [],
-                event: {
-                    "编辑":{type:"click",select:"[name = '编辑']",fun:function(key){
-                        console.log(key);
-                    }
-                    }
-                },
+                event: {},
                 div: $("<div>"),
                 icon: "f_cardTable",
                 width: "100%",

@@ -60,12 +60,15 @@
 	border: 1px solid #D9D9D9;
 	background-color: #fff;
 	margin-top:20px;
+	border-radius:2px;
+}
+.f_cardTable:first-child{
+	margin-top:0;
 }
 .init_head{
 	background-color: #f8f8f8;
-	border-bottom: 1px solid #D9D9D9;
 	height: 50px;
-	line-height: 50px;
+	line-height: 48px;
 	position: relative;
 }
 .head_operate{
@@ -110,6 +113,7 @@
 }
 .f_init_content{
 	padding:0 30px 10px 30px;
+	border-top: 1px solid #D9D9D9;
 }
 .f_init_absolutePanel>[name]{
 	height:40px;
@@ -175,7 +179,7 @@
 	position:relative;
 	display:inline-block;
 	margin-left:10px;
-	margin-top:16px;
+	margin-top:18px;
 }
 
 .init_switch .basicStyle.open{
