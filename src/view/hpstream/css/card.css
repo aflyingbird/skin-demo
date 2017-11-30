@@ -1,0 +1,18 @@
+.init_head>.head_icon,.head_title,.head_status{
+    float: left
+}
+
+.init_head >.head_tool{
+    float: right;
+    position: relative
+}
+
+.init_head >.head_tool .head_More{
+    display: none;
+    position: absolute;
+    right: 0;
+
+}
+.init_head >.head_tool .head_More>span{
+    display: block
+}
