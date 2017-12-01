@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="cardTableTest"></div>
+<script src="../js/components/jquery/jquery-1.12.2.min.js"></script>
+
+<script>
+
+	var a = [
+		{tile: 'as', t: 'asd'},
+		{tile: 'as', t: 'hjakjs'},
+	]
+
+
+	var nn =[];
+
+    // 基本结构
+    function initCard(opt, obj) {
+        var div = $(obj);
+        var initDiv = '';
+        for (var index in opt) {
+            initDiv += '<div class="' + index + 'hjas">' + index + '</div>';
+        }
+        div.append(initDiv);
+    }
+
+    //判断是数组
+    function isArray(arr) {
+        return Object.prototype.toString.call(arr) === '[object Array]';
+    }
+
+    // 数组和对象走两条路
+    function divide(data, obj) {
+        var div = $(obj);
+        var initDiv = '';
+        if (isArray(data)) {
+            data.forEach(function (keyId) {
+                for (var index in keyId) {
+                    initDiv += '<span class="' + index + '">' + keyId[index] + '</span>';
+                }
+            })
+        } else {
+            for (var index in data) {
+                if (isArray(data[index])) {
+                    data[index].forEach(function (keyId, status) {
+                        initDiv += '<span class="'+ formatter(status) +'">'+ keyId +'</span>';
+                    })
+                } else {
+                    initDiv += '<span class="' + index + '">' + data[index] + '</span>';
+                }
+            }
+        }
+        div.empty().append(initDiv);
+    }
+
+    function formatter(status) {
+        return String.fromCharCode(65 + parseInt(status));
+    }
+
+    initCard(opt, '#cardTableTest');
+    divide(opt.header, '.header');
+    divide(opt.container, '.container');
+    divide(opt.footer, '.footer');
+
+
+
+</script>
+</body>
+</html>
